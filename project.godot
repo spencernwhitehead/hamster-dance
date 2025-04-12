@@ -11,5 +11,11 @@ config_version=5
 [application]
 
 config/name="hamster dance"
+run/main_scene="uid://hm3r2f3cmlnd"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[global_group]
+
+hamster=""
+bug=""

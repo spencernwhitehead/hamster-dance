@@ -1,9 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c781jg78t36cp"]
-
-[ext_resource type="Texture2D" uid="uid://u00ogkrteu3h" path="res://icon.svg" id="1_6uery"]
-
-[node name="TestNode" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 3.14159
-texture = ExtResource("1_6uery")
