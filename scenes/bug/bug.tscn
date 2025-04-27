@@ -5,28 +5,33 @@
 [ext_resource type="PackedScene" uid="uid://disdvhfw0b0mn" path="res://scenes/component/velocity_component.tscn" id="3_hlgfl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7qq8w"]
-radius = 36.7967
+radius = 32.0
 
 [node name="Bug" type="CharacterBody2D" groups=["bug"]]
-collision_mask = 0
+collision_layer = 4
+collision_mask = 4
 script = ExtResource("1_07bwr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-2, 28)
+position = Vector2(-2.5, -2.7)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_c3vej")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("3_hlgfl")]
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
-position = Vector2(0, 31)
+position = Vector2(-0.5, 0.300003)
 shape = SubResource("CircleShape2D_7qq8w")
 
 [node name="Hurtbox" type="Area2D" parent="."]
+position = Vector2(-0.5, -30.7)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, 31)
 shape = SubResource("CircleShape2D_7qq8w")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
 
 [connection signal="input_event" from="Hurtbox" to="." method="_on_hurtbox_input_event"]

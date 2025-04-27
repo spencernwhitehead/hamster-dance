@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://t2ss6vfh1tll"]
+
+[ext_resource type="Texture2D" uid="uid://b4wpdbatj42yg" path="res://assets/shortcuts/defragment-0.png" id="1_bqhke"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bqhke"]
+size = Vector2(64, 64)
+
+[node name="Shortcut" type="StaticBody2D"]
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_bqhke")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bqhke")

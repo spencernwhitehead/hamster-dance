@@ -1,12 +1,14 @@
-[gd_scene load_steps=14 format=3 uid="uid://docpdyugevgfh"]
+[gd_scene load_steps=17 format=3 uid="uid://docpdyugevgfh"]
 
 [ext_resource type="PackedScene" uid="uid://cy44sbrrl1n6u" path="res://scenes/manager/bug_spawn_manager.tscn" id="1_6yas7"]
+[ext_resource type="Script" uid="uid://gm2vsu84ykss" path="res://scenes/ui/desktop.gd" id="1_ll2ol"]
 [ext_resource type="Texture2D" uid="uid://jeh7vi11aweu" path="res://addons/color_dither/textures/demo/cat.png" id="1_uyncw"]
 [ext_resource type="PackedScene" uid="uid://by5adhdovalob" path="res://scenes/hamster/hamster.tscn" id="2_6yas7"]
 [ext_resource type="Shader" uid="uid://bt8q2fm45t67d" path="res://addons/color_dither/shaders/color_dither_post_2d.gdshader" id="2_yw0nm"]
 [ext_resource type="Texture2D" uid="uid://3k3gmhyq1qhe" path="res://addons/color_dither/textures/palettes/color-graphics-adapter.png" id="3_6yas7"]
 [ext_resource type="PackedScene" uid="uid://dkhn3x88cln60" path="res://scenes/bug/bug.tscn" id="3_q8u6i"]
 [ext_resource type="Script" uid="uid://mq022occua21" path="res://scenes/ui/window.gd" id="6_q8u6i"]
+[ext_resource type="PackedScene" uid="uid://t2ss6vfh1tll" path="res://scenes/shortcuts/shortcut.tscn" id="8_uadmx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u6i"]
 shader = ExtResource("2_yw0nm")
@@ -21,32 +23,39 @@ colors = PackedColorArray(0.039, 0.609267, 0.65, 1, 0.23529, 0.62, 0.1674, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_2nepw"]
 gradient = SubResource("Gradient_2pwep")
+width = 1280
+height = 720
 fill_from = Vector2(0.5, 0.6)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6yas7"]
-distance = -649.0
+distance = -690.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_q8u6i"]
 normal = Vector2(1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cbgyw"]
 normal = Vector2(-1, 0)
-distance = -1151.0
+distance = -1280.0
 
-[node name="Desktop" type="CanvasLayer"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_uadmx"]
+vertices = PackedVector2Array(32, 688, 289, 447, 793, 444, 921, 444, 1248, 688, 790, 227, 886, 236, 921, 316, 793, 316, 651, 291, 662, 227, 577, 425, 449, 425, 449, 297, 427, 399, 427, 271, 434, 219, 161, 447, 161, 319, 32, 283, 96, 283, 1014, 236, 1014, 108, 1248, 32, 32, 32, 790, 99, 299, 399, 289, 319, 299, 286, 651, 163, 662, 99, 208, 286, 886, 108, 577, 297, 523, 291, 562, 163, 562, 91, 523, 219, 336, 271, 336, 158, 434, 91, 96, 155, 32, 155, 208, 158)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8, 9, 10), PackedInt32Array(11, 2, 1, 12), PackedInt32Array(13, 12, 14, 15, 16), PackedInt32Array(17, 1, 0), PackedInt32Array(18, 17, 0, 19, 20), PackedInt32Array(21, 22, 23, 4), PackedInt32Array(24, 23, 22, 25), PackedInt32Array(21, 4, 3, 7), PackedInt32Array(6, 21, 7), PackedInt32Array(14, 12, 1, 26), PackedInt32Array(26, 1, 27, 28), PackedInt32Array(10, 9, 29, 30), PackedInt32Array(31, 28, 27, 18), PackedInt32Array(32, 6, 5, 25), PackedInt32Array(9, 8, 2, 11, 33), PackedInt32Array(34, 9, 33, 13), PackedInt32Array(29, 35, 36, 30), PackedInt32Array(16, 37, 34, 13), PackedInt32Array(16, 15, 38, 39, 40), PackedInt32Array(41, 42, 24), PackedInt32Array(43, 31, 18, 20, 41), PackedInt32Array(39, 43, 41, 24, 40), PackedInt32Array(36, 40, 24), PackedInt32Array(22, 32, 25), PackedInt32Array(36, 24, 25, 30)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1340, 785, -26, 747, -31, -49, 1324, -34)])
+parsed_geometry_type = 1
+parsed_collision_mask = 4294967041
+source_geometry_mode = 2
+source_geometry_group_name = &"obstacle"
+agent_radius = 32.0
+baking_rect = Rect2(0, 0, 1280, 720)
 
-[node name="UI" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Desktop" type="Node2D"]
+script = ExtResource("1_ll2ol")
+
+[node name="UI" type="CanvasLayer" parent="."]
 
 [node name="DitherShader" type="ColorRect" parent="UI"]
+visible = false
 material = SubResource("ShaderMaterial_q8u6i")
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -54,74 +63,106 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Wallpaper" type="TextureRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_2nepw")
-
-[node name="PanelContainer2" type="PanelContainer" parent="."]
-anchors_preset = -1
-anchor_top = 0.915123
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 24.0003
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_vertical = 8
-metadata/_edit_use_anchors_ = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer2"]
-layout_mode = 2
-
-[node name="WindowButton" type="Button" parent="PanelContainer2/HBoxContainer"]
-layout_mode = 2
-text = "button1"
-
-[node name="Button2" type="Button" parent="PanelContainer2/HBoxContainer"]
-layout_mode = 2
-text = "button2"
-
-[node name="Window" type="Window" parent="."]
+[node name="Window" type="Window" parent="UI"]
 transparent_bg = true
 title = "what"
 initial_position = 1
+visible = false
 transparent = true
 min_size = Vector2i(100, 0)
 script = ExtResource("6_q8u6i")
 
-[node name="Sprite2D" type="Sprite2D" parent="Window"]
+[node name="Sprite2D" type="Sprite2D" parent="UI/Window"]
 position = Vector2(54, 54.5)
 scale = Vector2(0.40625, 0.303529)
 texture = ExtResource("1_uyncw")
 
+[node name="Taskbar" type="PanelContainer" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Taskbar"]
+layout_mode = 2
+
+[node name="WindowButton" type="Button" parent="UI/Taskbar/HBoxContainer"]
+layout_mode = 2
+text = "cat"
+
+[node name="Button2" type="Button" parent="UI/Taskbar/HBoxContainer"]
+layout_mode = 2
+text = "button2"
+
+[node name="Wallpaper" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(640, 360)
+texture = SubResource("GradientTexture2D_2nepw")
+
 [node name="BugSpawnManager" parent="." instance=ExtResource("1_6yas7")]
 bug_scene = ExtResource("3_q8u6i")
-
-[node name="Hamster" parent="." instance=ExtResource("2_6yas7")]
-position = Vector2(355, 316)
 
 [node name="Border" type="Node2D" parent="."]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Border"]
-collision_layer = 3
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D"]
 shape = SubResource("WorldBoundaryShape2D_6yas7")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="Border"]
-collision_layer = 3
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D2"]
 shape = SubResource("WorldBoundaryShape2D_q8u6i")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="Border"]
-collision_layer = 3
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D3"]
 shape = SubResource("WorldBoundaryShape2D_cbgyw")
 
-[connection signal="pressed" from="PanelContainer2/HBoxContainer/WindowButton" to="Window" method="_on_window_button_pressed"]
-[connection signal="close_requested" from="Window" to="Window" method="_on_close_requested"]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_uadmx")
+
+[node name="shortcuts" type="Node2D" parent="."]
+
+[node name="Shortcut" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(32, 219)
+
+[node name="Shortcut2" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(857, 380)
+
+[node name="Shortcut9" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(587, 227)
+
+[node name="Shortcut10" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(726, 163)
+
+[node name="Shortcut3" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(950, 172)
+
+[node name="Shortcut8" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(225, 383)
+
+[node name="Shortcut4" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(363, 335)
+
+[node name="Shortcut5" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(513, 361)
+
+[node name="Shortcut6" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(498, 155)
+
+[node name="Shortcut7" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
+position = Vector2(272, 222)
+
+[node name="Hamster" parent="." instance=ExtResource("2_6yas7")]
+position = Vector2(824, 490)
+
+[connection signal="close_requested" from="UI/Window" to="UI/Window" method="_on_close_requested"]
+[connection signal="pressed" from="UI/Taskbar/HBoxContainer/WindowButton" to="UI/Window" method="_on_window_button_pressed"]

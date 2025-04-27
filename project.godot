@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="hamster dance"
-run/main_scene="uid://hm3r2f3cmlnd"
+run/main_scene="uid://docpdyugevgfh"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -21,12 +21,19 @@ gdscript/warnings/unused_parameter=0
 
 [display]
 
+window/size/viewport_width=1280
+window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/inspector_tabs/plugin.cfg")
 
 [global_group]
 
 hamster=""
 bug=""
+obstacle=""
 
 [gui]
 
@@ -39,6 +46,14 @@ mouse_left_click={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="Obstacles"
+2d_physics/layer_2="Hamster"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Projectile"
+2d_physics/layer_5="Interactable"
 
 [rendering]
 

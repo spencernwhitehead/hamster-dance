@@ -1,15 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://by5adhdovalob"]
+[gd_scene load_steps=6 format=3 uid="uid://by5adhdovalob"]
 
 [ext_resource type="Script" uid="uid://bwxl67ra0vm54" path="res://scenes/hamster/hamster.gd" id="1_6v4te"]
 [ext_resource type="Texture2D" uid="uid://d1u4pe6w6geax" path="res://scenes/hamster/hamster.png" id="1_v5iii"]
 [ext_resource type="PackedScene" uid="uid://disdvhfw0b0mn" path="res://scenes/component/velocity_component.tscn" id="3_chdbw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6v4te"]
-radius = 38.0526
+radius = 37.054
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_chdbw"]
+radius = 31.0161
 
 [node name="Hamster" type="CharacterBody2D" groups=["hamster"]]
 collision_layer = 0
-collision_mask = 2
 script = ExtResource("1_6v4te")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -17,18 +19,20 @@ position = Vector2(0.400002, 18.5)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_v5iii")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="PickupRadias" type="Area2D" parent="."]
 position = Vector2(0.400002, 18.5)
+collision_layer = 16
+collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_6v4te")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(0.400002, 18.5)
+[node name="PickupShape" type="CollisionShape2D" parent="PickupRadias"]
 shape = SubResource("CircleShape2D_6v4te")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("3_chdbw")]
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 18)
+shape = SubResource("CircleShape2D_chdbw")
+
+[connection signal="body_entered" from="PickupRadias" to="." method="_on_area_2d_body_entered"]
+[connection signal="mouse_entered" from="PickupRadias" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="PickupRadias" to="." method="_on_area_2d_mouse_exited"]

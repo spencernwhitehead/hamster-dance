@@ -1,3 +1,4 @@
+#makes the window close and reopen based on input from the x button or the taskbar button
 extends Window
 
 
