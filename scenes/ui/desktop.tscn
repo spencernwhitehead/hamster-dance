@@ -1,0 +1,127 @@
+[gd_scene load_steps=14 format=3 uid="uid://docpdyugevgfh"]
+
+[ext_resource type="PackedScene" uid="uid://cy44sbrrl1n6u" path="res://scenes/manager/bug_spawn_manager.tscn" id="1_6yas7"]
+[ext_resource type="Texture2D" uid="uid://jeh7vi11aweu" path="res://addons/color_dither/textures/demo/cat.png" id="1_uyncw"]
+[ext_resource type="PackedScene" uid="uid://by5adhdovalob" path="res://scenes/hamster/hamster.tscn" id="2_6yas7"]
+[ext_resource type="Shader" uid="uid://bt8q2fm45t67d" path="res://addons/color_dither/shaders/color_dither_post_2d.gdshader" id="2_yw0nm"]
+[ext_resource type="Texture2D" uid="uid://3k3gmhyq1qhe" path="res://addons/color_dither/textures/palettes/color-graphics-adapter.png" id="3_6yas7"]
+[ext_resource type="PackedScene" uid="uid://dkhn3x88cln60" path="res://scenes/bug/bug.tscn" id="3_q8u6i"]
+[ext_resource type="Script" uid="uid://mq022occua21" path="res://scenes/ui/window.gd" id="6_q8u6i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u6i"]
+shader = ExtResource("2_yw0nm")
+shader_parameter/dither_pixel_size = 1.0
+shader_parameter/dither_pixel_offset = Vector2(0, 0)
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/albedo_strength = 1.0
+shader_parameter/dither_palette = ExtResource("3_6yas7")
+
+[sub_resource type="Gradient" id="Gradient_2pwep"]
+colors = PackedColorArray(0.039, 0.609267, 0.65, 1, 0.23529, 0.62, 0.1674, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2nepw"]
+gradient = SubResource("Gradient_2pwep")
+fill_from = Vector2(0.5, 0.6)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6yas7"]
+distance = -649.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_q8u6i"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cbgyw"]
+normal = Vector2(-1, 0)
+distance = -1151.0
+
+[node name="Desktop" type="CanvasLayer"]
+
+[node name="UI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DitherShader" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_q8u6i")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="Wallpaper" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_2nepw")
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+anchors_preset = -1
+anchor_top = 0.915123
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 24.0003
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer2"]
+layout_mode = 2
+
+[node name="WindowButton" type="Button" parent="PanelContainer2/HBoxContainer"]
+layout_mode = 2
+text = "button1"
+
+[node name="Button2" type="Button" parent="PanelContainer2/HBoxContainer"]
+layout_mode = 2
+text = "button2"
+
+[node name="Window" type="Window" parent="."]
+transparent_bg = true
+title = "what"
+initial_position = 1
+transparent = true
+min_size = Vector2i(100, 0)
+script = ExtResource("6_q8u6i")
+
+[node name="Sprite2D" type="Sprite2D" parent="Window"]
+position = Vector2(54, 54.5)
+scale = Vector2(0.40625, 0.303529)
+texture = ExtResource("1_uyncw")
+
+[node name="BugSpawnManager" parent="." instance=ExtResource("1_6yas7")]
+bug_scene = ExtResource("3_q8u6i")
+
+[node name="Hamster" parent="." instance=ExtResource("2_6yas7")]
+position = Vector2(355, 316)
+
+[node name="Border" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Border"]
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_6yas7")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Border"]
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D2"]
+shape = SubResource("WorldBoundaryShape2D_q8u6i")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Border"]
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D3"]
+shape = SubResource("WorldBoundaryShape2D_cbgyw")
+
+[connection signal="pressed" from="PanelContainer2/HBoxContainer/WindowButton" to="Window" method="_on_window_button_pressed"]
+[connection signal="close_requested" from="Window" to="Window" method="_on_close_requested"]

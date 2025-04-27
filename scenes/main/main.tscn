@@ -1,20 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://hm3r2f3cmlnd"]
+[gd_scene load_steps=3 format=3 uid="uid://hm3r2f3cmlnd"]
 
 [ext_resource type="PackedScene" uid="uid://by5adhdovalob" path="res://scenes/hamster/hamster.tscn" id="1_hyk8p"]
-[ext_resource type="Script" uid="uid://b0rqux8sff1ya" path="res://scenes/main/bug_spawn_manager.gd" id="2_iuonh"]
-[ext_resource type="PackedScene" uid="uid://dkhn3x88cln60" path="res://scenes/bug/bug.tscn" id="3_k2fmo"]
+[ext_resource type="PackedScene" uid="uid://cy44sbrrl1n6u" path="res://scenes/manager/bug_spawn_manager.tscn" id="2_iuonh"]
 
 [node name="Main" type="Node"]
 
 [node name="Hamster" parent="." instance=ExtResource("1_hyk8p")]
 position = Vector2(556, 289)
 
-[node name="BugSpawnManager" type="Node" parent="."]
-script = ExtResource("2_iuonh")
-bug_scene = ExtResource("3_k2fmo")
-
-[node name="CooldownTimer" type="Timer" parent="BugSpawnManager"]
-wait_time = 2.0
-autostart = true
-
-[connection signal="timeout" from="BugSpawnManager/CooldownTimer" to="BugSpawnManager" method="_on_cooldown_timer_timeout"]
+[node name="BugSpawnManager" parent="." instance=ExtResource("2_iuonh")]

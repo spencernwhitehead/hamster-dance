@@ -5,12 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://disdvhfw0b0mn" path="res://scenes/component/velocity_component.tscn" id="3_hlgfl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7qq8w"]
-radius = 55.0364
+radius = 36.7967
 
 [node name="Bug" type="CharacterBody2D" groups=["bug"]]
+collision_mask = 0
 script = ExtResource("1_07bwr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2, 28)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_c3vej")
 
@@ -21,6 +23,7 @@ position = Vector2(0, 31)
 shape = SubResource("CircleShape2D_7qq8w")
 
 [node name="Hurtbox" type="Area2D" parent="."]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 position = Vector2(0, 31)
