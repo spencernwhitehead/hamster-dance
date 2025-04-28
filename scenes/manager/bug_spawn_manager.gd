@@ -13,3 +13,8 @@ func _on_cooldown_timer_timeout():
 	#this is where you would set the spawn coordinates if you didn't want them spawning in at (0,0)
 	#but that's the top left corner so we don't have to worry about that for now
 	get_parent().add_child(bug)
+
+
+func _on_spawn_bug_button_pressed():
+	var bug = bug_scene.instantiate() as Node2D
+	get_parent().add_child(bug)

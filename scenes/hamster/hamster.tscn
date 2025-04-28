@@ -19,12 +19,12 @@ position = Vector2(0.400002, 18.5)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_v5iii")
 
-[node name="PickupRadias" type="Area2D" parent="."]
+[node name="MouseDetectArea" type="Area2D" parent="."]
 position = Vector2(0.400002, 18.5)
 collision_layer = 16
 collision_mask = 4
 
-[node name="PickupShape" type="CollisionShape2D" parent="PickupRadias"]
+[node name="PickupShape" type="CollisionShape2D" parent="MouseDetectArea"]
 shape = SubResource("CircleShape2D_6v4te")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("3_chdbw")]
@@ -33,6 +33,6 @@ shape = SubResource("CircleShape2D_6v4te")
 position = Vector2(1, 18)
 shape = SubResource("CircleShape2D_chdbw")
 
-[connection signal="body_entered" from="PickupRadias" to="." method="_on_area_2d_body_entered"]
-[connection signal="mouse_entered" from="PickupRadias" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="PickupRadias" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="MouseDetectArea" to="." method="_on_area_2d_body_entered"]
+[connection signal="mouse_entered" from="MouseDetectArea" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="MouseDetectArea" to="." method="_on_area_2d_mouse_exited"]

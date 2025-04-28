@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://docpdyugevgfh"]
+[gd_scene load_steps=21 format=3 uid="uid://docpdyugevgfh"]
 
 [ext_resource type="PackedScene" uid="uid://cy44sbrrl1n6u" path="res://scenes/manager/bug_spawn_manager.tscn" id="1_6yas7"]
 [ext_resource type="Script" uid="uid://gm2vsu84ykss" path="res://scenes/ui/desktop.gd" id="1_ll2ol"]
@@ -7,8 +7,12 @@
 [ext_resource type="Shader" uid="uid://bt8q2fm45t67d" path="res://addons/color_dither/shaders/color_dither_post_2d.gdshader" id="2_yw0nm"]
 [ext_resource type="Texture2D" uid="uid://3k3gmhyq1qhe" path="res://addons/color_dither/textures/palettes/color-graphics-adapter.png" id="3_6yas7"]
 [ext_resource type="PackedScene" uid="uid://dkhn3x88cln60" path="res://scenes/bug/bug.tscn" id="3_q8u6i"]
+[ext_resource type="Texture2D" uid="uid://b4wpdbatj42yg" path="res://assets/shortcuts/defragment-0.png" id="6_a1tuf"]
 [ext_resource type="Script" uid="uid://mq022occua21" path="res://scenes/ui/window.gd" id="6_q8u6i"]
+[ext_resource type="Script" uid="uid://ctq44fh6lm2ng" path="res://scenes/ui/shortcut_spawner.gd" id="7_4rgkm"]
 [ext_resource type="PackedScene" uid="uid://t2ss6vfh1tll" path="res://scenes/shortcuts/shortcut.tscn" id="8_uadmx"]
+[ext_resource type="Texture2D" uid="uid://bgd8e8cf07lcw" path="res://assets/shortcuts/recycle_bin_empty_2k-4.png" id="8_xw6ii"]
+[ext_resource type="Script" uid="uid://2xgf2bourok5" path="res://scenes/ui/trash.gd" id="10_xw6ii"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u6i"]
 shader = ExtResource("2_yw0nm")
@@ -28,7 +32,7 @@ height = 720
 fill_from = Vector2(0.5, 0.6)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6yas7"]
-distance = -690.0
+distance = -656.0
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_q8u6i"]
 normal = Vector2(1, 0)
@@ -38,15 +42,15 @@ normal = Vector2(-1, 0)
 distance = -1280.0
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_uadmx"]
-vertices = PackedVector2Array(32, 688, 289, 447, 793, 444, 921, 444, 1248, 688, 790, 227, 886, 236, 921, 316, 793, 316, 651, 291, 662, 227, 577, 425, 449, 425, 449, 297, 427, 399, 427, 271, 434, 219, 161, 447, 161, 319, 32, 283, 96, 283, 1014, 236, 1014, 108, 1248, 32, 32, 32, 790, 99, 299, 399, 289, 319, 299, 286, 651, 163, 662, 99, 208, 286, 886, 108, 577, 297, 523, 291, 562, 163, 562, 91, 523, 219, 336, 271, 336, 158, 434, 91, 96, 155, 32, 155, 208, 158)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8, 9, 10), PackedInt32Array(11, 2, 1, 12), PackedInt32Array(13, 12, 14, 15, 16), PackedInt32Array(17, 1, 0), PackedInt32Array(18, 17, 0, 19, 20), PackedInt32Array(21, 22, 23, 4), PackedInt32Array(24, 23, 22, 25), PackedInt32Array(21, 4, 3, 7), PackedInt32Array(6, 21, 7), PackedInt32Array(14, 12, 1, 26), PackedInt32Array(26, 1, 27, 28), PackedInt32Array(10, 9, 29, 30), PackedInt32Array(31, 28, 27, 18), PackedInt32Array(32, 6, 5, 25), PackedInt32Array(9, 8, 2, 11, 33), PackedInt32Array(34, 9, 33, 13), PackedInt32Array(29, 35, 36, 30), PackedInt32Array(16, 37, 34, 13), PackedInt32Array(16, 15, 38, 39, 40), PackedInt32Array(41, 42, 24), PackedInt32Array(43, 31, 18, 20, 41), PackedInt32Array(39, 43, 41, 24, 40), PackedInt32Array(36, 40, 24), PackedInt32Array(22, 32, 25), PackedInt32Array(36, 24, 25, 30)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(1340, 785, -26, 747, -31, -49, 1324, -34)])
+vertices = PackedVector2Array(1264, 640, 16, 640, 16, 16, 1264, 16)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1318, 750, -26, 747, -30, -30, 1324, -34)])
 parsed_geometry_type = 1
 parsed_collision_mask = 4294967041
 source_geometry_mode = 2
 source_geometry_group_name = &"obstacle"
-agent_radius = 32.0
-baking_rect = Rect2(0, 0, 1280, 720)
+agent_radius = 16.0
+baking_rect = Rect2(0, 0, 1280, 656)
 
 [node name="Desktop" type="Node2D"]
 script = ExtResource("1_ll2ol")
@@ -94,12 +98,41 @@ layout_mode = 2
 layout_mode = 2
 text = "cat"
 
-[node name="Button2" type="Button" parent="UI/Taskbar/HBoxContainer"]
+[node name="SpawnBugButton" type="Button" parent="UI/Taskbar/HBoxContainer"]
 layout_mode = 2
-text = "button2"
+text = "bug"
+
+[node name="ShortcutSpawner" type="TextureRect" parent="UI/Taskbar/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("6_a1tuf")
+expand_mode = 2
+script = ExtResource("7_4rgkm")
+shortcut_scene = ExtResource("8_uadmx")
+
+[node name="Trash" type="TextureRect" parent="UI/Taskbar/HBoxContainer" groups=["trash"]]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("8_xw6ii")
+script = ExtResource("10_xw6ii")
+
+[node name="Sidebar" type="PanelContainer" parent="UI"]
+visible = false
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Sidebar"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Sidebar/VBoxContainer"]
+layout_mode = 2
+text = "shortcuts"
 
 [node name="Wallpaper" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(640, 360)
 texture = SubResource("GradientTexture2D_2nepw")
 
@@ -126,43 +159,18 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D3"]
 shape = SubResource("WorldBoundaryShape2D_cbgyw")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navregion"]]
 navigation_polygon = SubResource("NavigationPolygon_uadmx")
 
 [node name="shortcuts" type="Node2D" parent="."]
-
-[node name="Shortcut" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(32, 219)
-
-[node name="Shortcut2" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(857, 380)
-
-[node name="Shortcut9" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(587, 227)
-
-[node name="Shortcut10" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(726, 163)
-
-[node name="Shortcut3" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(950, 172)
-
-[node name="Shortcut8" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(225, 383)
-
-[node name="Shortcut4" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(363, 335)
-
-[node name="Shortcut5" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(513, 361)
-
-[node name="Shortcut6" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(498, 155)
-
-[node name="Shortcut7" parent="shortcuts" groups=["obstacle"] instance=ExtResource("8_uadmx")]
-position = Vector2(272, 222)
 
 [node name="Hamster" parent="." instance=ExtResource("2_6yas7")]
 position = Vector2(824, 490)
 
 [connection signal="close_requested" from="UI/Window" to="UI/Window" method="_on_close_requested"]
 [connection signal="pressed" from="UI/Taskbar/HBoxContainer/WindowButton" to="UI/Window" method="_on_window_button_pressed"]
+[connection signal="pressed" from="UI/Taskbar/HBoxContainer/SpawnBugButton" to="BugSpawnManager" method="_on_spawn_bug_button_pressed"]
+[connection signal="gui_input" from="UI/Taskbar/HBoxContainer/ShortcutSpawner" to="UI/Taskbar/HBoxContainer/ShortcutSpawner" method="_on_gui_input"]
+[connection signal="mouse_entered" from="UI/Taskbar/HBoxContainer/Trash" to="UI/Taskbar/HBoxContainer/Trash" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="UI/Taskbar/HBoxContainer/Trash" to="." method="_on_trash_mouse_exited"]
+[connection signal="mouse_exited" from="UI/Taskbar/HBoxContainer/Trash" to="UI/Taskbar/HBoxContainer/Trash" method="_on_mouse_exited"]

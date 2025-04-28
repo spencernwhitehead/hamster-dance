@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://t2ss6vfh1tll"]
+[gd_scene load_steps=4 format=3 uid="uid://t2ss6vfh1tll"]
 
 [ext_resource type="Texture2D" uid="uid://b4wpdbatj42yg" path="res://assets/shortcuts/defragment-0.png" id="1_bqhke"]
+[ext_resource type="Script" uid="uid://f02rmft0guvc" path="res://scenes/shortcuts/shortcut.gd" id="1_tk8vk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bqhke"]
 size = Vector2(64, 64)
 
-[node name="Shortcut" type="StaticBody2D"]
+[node name="Shortcut" type="StaticBody2D" groups=["obstacle", "shortcut"]]
 collision_mask = 0
+script = ExtResource("1_tk8vk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
@@ -14,3 +16,11 @@ texture = ExtResource("1_bqhke")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bqhke")
+
+[node name="MouseDetectArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="MouseDetectArea"]
+shape = SubResource("RectangleShape2D_bqhke")
+
+[connection signal="mouse_entered" from="MouseDetectArea" to="." method="_on_mouse_detect_area_mouse_entered"]
+[connection signal="mouse_exited" from="MouseDetectArea" to="." method="_on_mouse_detect_area_mouse_exited"]
