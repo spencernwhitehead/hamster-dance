@@ -3,15 +3,12 @@ extends CharacterBody2D
 @export var movement_speed := 200.0
 
 
+func _ready():
+	$HealthBar.init_bar(100)
+
+
 func _physics_process(delta):
-	#previous movement code for the bug
-	#currently commented out in favor of the navigation code
-	
-	#$VelocityComponent.rotate_to_hamster()
-	#$VelocityComponent.accelerate_to_hamster()
-	#$VelocityComponent.move(self)
-	
-	#gets a reference to the hamster node to track
+	#gets a reference to the hamster node for tracking
 	var hamster = get_tree().get_first_node_in_group("hamster") as Node2D
 	#stops trying to calculate movement if the hamster's already dead and can't be found
 	if hamster == null:
@@ -28,7 +25,21 @@ func _physics_process(delta):
 #detects if mouse click occurs within its hurtbox area
 func _on_hurtbox_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.pressed:
-		#this is where the bug would take damage
-		#but we just delete it for now instead
-		queue_free()
- 
+		$Health.damage(20)
+
+
+func _on_basic_hit_box_2d_hurt_box_entered(hurt_box):
+	$BasicHitBox2D/CollisionShape2D.set_deferred("disabled", true)
+	$HitCooldownTimer.start()
+
+
+func _on_hit_cooldown_timer_timeout():
+	$BasicHitBox2D/CollisionShape2D.set_deferred("disabled", false)
+
+
+func _on_health_action_applied(action, applied):
+	$HealthBar.update_bar($Health.current)
+
+
+func _on_health_died(entity):
+	queue_free()

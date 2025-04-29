@@ -10,20 +10,25 @@ var state: states = states.WANDER
 #temporarily used to decide if hamster is going left or right
 var flip = 1
 
+func _ready():
+	$HealthBar.init_bar(100)
+
+
 
 func _physics_process(delta):
 	#hamster grows slightly and follows cursor if left click pressed within defined area
 	if pickable and Input.is_action_just_pressed("mouse_left_click"):
 		state = states.DRAG
-		scale *= 1.2
+		$Sprite2D.scale *= 1.2
 	#goes back to wandering if released from dragging
 	if Input.is_action_just_released("mouse_left_click") and state == states.DRAG:
-		scale /= 1.2
+		$Sprite2D.scale /= 1.2
 		state = states.WANDER
 	
 	#when behavior is set to drag, moves hamster to location of cursor
 	#lerp moves it over a short period of time to smooth it out
 	if state == states.DRAG:
+		velocity = Vector2.ZERO
 		global_position = lerp(global_position, get_global_mouse_position(), 20 * delta)
 	
 	#wander behavior, just bounces back and forth between walls
@@ -38,7 +43,7 @@ func _physics_process(delta):
 		else:
 			velocity.x = 0
 			velocity.y += gravity * delta * 2
-		move_and_slide()
+	move_and_slide()
 
 
 #checks for cursor over hamster and allows it to be picked up
@@ -55,4 +60,16 @@ func _on_area_2d_mouse_exited():
 #currently just gets deleted, need to add health
 func _on_area_2d_body_entered(body):
 	if body.is_in_group("bug"):
-		queue_free()
+		pass
+		#queue_free()
+
+
+func _on_health_action_applied(action, applied):
+	#print($Health.current)
+	$HealthBar.update_bar($Health.current)
+
+
+func _on_health_died(entity):
+	$"../Taskbar/HBoxContainer/ReviveHamsterButton".disabled = false
+
+	queue_free()

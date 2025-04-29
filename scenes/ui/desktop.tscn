@@ -81,41 +81,6 @@ position = Vector2(54, 54.5)
 scale = Vector2(0.40625, 0.303529)
 texture = ExtResource("1_uyncw")
 
-[node name="Taskbar" type="PanelContainer" parent="UI"]
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_vertical = 8
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Taskbar"]
-layout_mode = 2
-
-[node name="WindowButton" type="Button" parent="UI/Taskbar/HBoxContainer"]
-layout_mode = 2
-text = "cat"
-
-[node name="SpawnBugButton" type="Button" parent="UI/Taskbar/HBoxContainer"]
-layout_mode = 2
-text = "bug"
-
-[node name="ShortcutSpawner" type="TextureRect" parent="UI/Taskbar/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-texture = ExtResource("6_a1tuf")
-expand_mode = 2
-script = ExtResource("7_4rgkm")
-shortcut_scene = ExtResource("8_uadmx")
-
-[node name="Trash" type="TextureRect" parent="UI/Taskbar/HBoxContainer" groups=["trash"]]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-texture = ExtResource("8_xw6ii")
-script = ExtResource("10_xw6ii")
-
 [node name="Sidebar" type="PanelContainer" parent="UI"]
 visible = false
 anchors_preset = 11
@@ -136,8 +101,53 @@ text = "shortcuts"
 position = Vector2(640, 360)
 texture = SubResource("GradientTexture2D_2nepw")
 
+[node name="Taskbar" type="PanelContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 656.0
+offset_right = 1281.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Taskbar"]
+layout_mode = 2
+
+[node name="WindowButton" type="Button" parent="Taskbar/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "cat"
+
+[node name="SpawnBugButton" type="Button" parent="Taskbar/HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "bug"
+
+[node name="ShortcutSpawner" type="TextureRect" parent="Taskbar/HBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("6_a1tuf")
+expand_mode = 2
+script = ExtResource("7_4rgkm")
+shortcut_scene = ExtResource("8_uadmx")
+
+[node name="Trash" type="TextureRect" parent="Taskbar/HBoxContainer" groups=["trash"]]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("8_xw6ii")
+script = ExtResource("10_xw6ii")
+
+[node name="ReviveHamsterButton" type="Button" parent="Taskbar/HBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "revive hamster"
+
 [node name="BugSpawnManager" parent="." instance=ExtResource("1_6yas7")]
 bug_scene = ExtResource("3_q8u6i")
+disabled = true
 
 [node name="Border" type="Node2D" parent="."]
 
@@ -160,17 +170,17 @@ collision_mask = 0
 shape = SubResource("WorldBoundaryShape2D_cbgyw")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navregion"]]
+position = Vector2(10, -5)
 navigation_polygon = SubResource("NavigationPolygon_uadmx")
-
-[node name="shortcuts" type="Node2D" parent="."]
 
 [node name="Hamster" parent="." instance=ExtResource("2_6yas7")]
 position = Vector2(824, 490)
 
 [connection signal="close_requested" from="UI/Window" to="UI/Window" method="_on_close_requested"]
-[connection signal="pressed" from="UI/Taskbar/HBoxContainer/WindowButton" to="UI/Window" method="_on_window_button_pressed"]
-[connection signal="pressed" from="UI/Taskbar/HBoxContainer/SpawnBugButton" to="BugSpawnManager" method="_on_spawn_bug_button_pressed"]
-[connection signal="gui_input" from="UI/Taskbar/HBoxContainer/ShortcutSpawner" to="UI/Taskbar/HBoxContainer/ShortcutSpawner" method="_on_gui_input"]
-[connection signal="mouse_entered" from="UI/Taskbar/HBoxContainer/Trash" to="UI/Taskbar/HBoxContainer/Trash" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="UI/Taskbar/HBoxContainer/Trash" to="." method="_on_trash_mouse_exited"]
-[connection signal="mouse_exited" from="UI/Taskbar/HBoxContainer/Trash" to="UI/Taskbar/HBoxContainer/Trash" method="_on_mouse_exited"]
+[connection signal="pressed" from="Taskbar/HBoxContainer/WindowButton" to="UI/Window" method="_on_window_button_pressed"]
+[connection signal="pressed" from="Taskbar/HBoxContainer/SpawnBugButton" to="BugSpawnManager" method="_on_spawn_bug_button_pressed"]
+[connection signal="gui_input" from="Taskbar/HBoxContainer/ShortcutSpawner" to="Taskbar/HBoxContainer/ShortcutSpawner" method="_on_gui_input"]
+[connection signal="mouse_entered" from="Taskbar/HBoxContainer/Trash" to="Taskbar/HBoxContainer/Trash" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Taskbar/HBoxContainer/Trash" to="." method="_on_trash_mouse_exited"]
+[connection signal="mouse_exited" from="Taskbar/HBoxContainer/Trash" to="Taskbar/HBoxContainer/Trash" method="_on_mouse_exited"]
+[connection signal="pressed" from="Taskbar/HBoxContainer/ReviveHamsterButton" to="." method="_on_revive_hamster_button_pressed"]
