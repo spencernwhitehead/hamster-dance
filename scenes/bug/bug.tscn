@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dkhn3x88cln60"]
+[gd_scene load_steps=17 format=3 uid="uid://dkhn3x88cln60"]
 
 [ext_resource type="Script" uid="uid://fl1vmuuwgw71" path="res://scenes/bug/bug.gd" id="1_07bwr"]
 [ext_resource type="Texture2D" uid="uid://bpy63p7mg4xdi" path="res://scenes/bug/bug.png" id="1_c3vej"]
@@ -43,6 +43,18 @@ affect = 1
 type = 2
 amount = 10
 
+[sub_resource type="Resource" id="Resource_51vwr"]
+script = ExtResource("5_tqa7d")
+affect = 1
+type = 2
+amount = 20
+
+[sub_resource type="Resource" id="Resource_beynb"]
+script = ExtResource("5_tqa7d")
+affect = 1
+type = 2
+amount = 20
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_k2opg"]
 radius = 40.42
 
@@ -74,7 +86,7 @@ debug_enabled = true
 [node name="BasicHitBox2D" type="Area2D" parent="."]
 script = ExtResource("4_7qq8w")
 amount = 20
-actions = Array[ExtResource("5_tqa7d")]([SubResource("Resource_tqa7d"), SubResource("Resource_7qq8w"), SubResource("Resource_nv4dg"), SubResource("Resource_ml27m"), SubResource("Resource_k2opg")])
+actions = Array[ExtResource("5_tqa7d")]([SubResource("Resource_tqa7d"), SubResource("Resource_7qq8w"), SubResource("Resource_nv4dg"), SubResource("Resource_ml27m"), SubResource("Resource_k2opg"), SubResource("Resource_51vwr"), SubResource("Resource_beynb")])
 metadata/_custom_type_script = "uid://chrsg1fc53qs3"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BasicHitBox2D"]

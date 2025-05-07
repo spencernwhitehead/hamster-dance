@@ -6,6 +6,5 @@ extends TextureRect
 func _on_gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		var shortcut = shortcut_scene.instantiate()
-		get_tree().root.get_child(0).add_child(shortcut)
-		shortcut.can_grab = true
-		shortcut.dragging = true
+		var shortcut_container = get_tree().get_first_node_in_group("temp_shortcut_container")
+		shortcut_container.add_child(shortcut)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://docpdyugevgfh"]
+[gd_scene load_steps=22 format=3 uid="uid://docpdyugevgfh"]
 
 [ext_resource type="PackedScene" uid="uid://cy44sbrrl1n6u" path="res://scenes/manager/bug_spawn_manager.tscn" id="1_6yas7"]
 [ext_resource type="Script" uid="uid://gm2vsu84ykss" path="res://scenes/ui/desktop.gd" id="1_ll2ol"]
@@ -10,9 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://b4wpdbatj42yg" path="res://assets/shortcuts/defragment-0.png" id="6_a1tuf"]
 [ext_resource type="Script" uid="uid://mq022occua21" path="res://scenes/ui/window.gd" id="6_q8u6i"]
 [ext_resource type="Script" uid="uid://ctq44fh6lm2ng" path="res://scenes/ui/shortcut_spawner.gd" id="7_4rgkm"]
-[ext_resource type="PackedScene" uid="uid://t2ss6vfh1tll" path="res://scenes/shortcuts/shortcut.tscn" id="8_uadmx"]
 [ext_resource type="Texture2D" uid="uid://bgd8e8cf07lcw" path="res://assets/shortcuts/recycle_bin_empty_2k-4.png" id="8_xw6ii"]
 [ext_resource type="Script" uid="uid://2xgf2bourok5" path="res://scenes/ui/trash.gd" id="10_xw6ii"]
+[ext_resource type="PackedScene" uid="uid://b7aacn07ugak6" path="res://scenes/ui/shortcut_ui.tscn" id="14_8avim"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u6i"]
 shader = ExtResource("2_yw0nm")
@@ -31,16 +31,6 @@ width = 1280
 height = 720
 fill_from = Vector2(0.5, 0.6)
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6yas7"]
-distance = -656.0
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_q8u6i"]
-normal = Vector2(1, 0)
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cbgyw"]
-normal = Vector2(-1, 0)
-distance = -1280.0
-
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_uadmx"]
 vertices = PackedVector2Array(1264, 640, 16, 640, 16, 16, 1264, 16)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
@@ -51,6 +41,18 @@ source_geometry_mode = 2
 source_geometry_group_name = &"obstacle"
 agent_radius = 16.0
 baking_rect = Rect2(0, 0, 1280, 656)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6yas7"]
+distance = -656.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_q8u6i"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cbgyw"]
+normal = Vector2(-1, 0)
+distance = -1280.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aqled"]
 
 [node name="Desktop" type="Node2D"]
 script = ExtResource("1_ll2ol")
@@ -101,6 +103,9 @@ text = "shortcuts"
 position = Vector2(640, 360)
 texture = SubResource("GradientTexture2D_2nepw")
 
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navregion"]]
+navigation_polygon = SubResource("NavigationPolygon_uadmx")
+
 [node name="Taskbar" type="PanelContainer" parent="."]
 anchors_preset = 12
 anchor_top = 1.0
@@ -132,7 +137,7 @@ layout_mode = 2
 texture = ExtResource("6_a1tuf")
 expand_mode = 2
 script = ExtResource("7_4rgkm")
-shortcut_scene = ExtResource("8_uadmx")
+shortcut_scene = ExtResource("14_8avim")
 
 [node name="Trash" type="TextureRect" parent="Taskbar/HBoxContainer" groups=["trash"]]
 custom_minimum_size = Vector2(64, 64)
@@ -144,6 +149,9 @@ script = ExtResource("10_xw6ii")
 layout_mode = 2
 disabled = true
 text = "revive hamster"
+
+[node name="ShortcutUI" parent="Taskbar/HBoxContainer" instance=ExtResource("14_8avim")]
+layout_mode = 2
 
 [node name="BugSpawnManager" parent="." instance=ExtResource("1_6yas7")]
 bug_scene = ExtResource("3_q8u6i")
@@ -169,12 +177,20 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D3"]
 shape = SubResource("WorldBoundaryShape2D_cbgyw")
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navregion"]]
-position = Vector2(10, -5)
-navigation_polygon = SubResource("NavigationPolygon_uadmx")
-
 [node name="Hamster" parent="." instance=ExtResource("2_6yas7")]
 position = Vector2(824, 490)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 1278.0
+offset_bottom = 654.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" groups=["temp_shortcut_container"]]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_aqled")
 
 [connection signal="close_requested" from="UI/Window" to="UI/Window" method="_on_close_requested"]
 [connection signal="pressed" from="Taskbar/HBoxContainer/WindowButton" to="UI/Window" method="_on_window_button_pressed"]

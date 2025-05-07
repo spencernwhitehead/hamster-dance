@@ -9,6 +9,7 @@ func _ready():
 
 
 func _process(delta):
+	return
 	if Input.is_action_just_pressed("mouse_left_click") and can_grab:
 		dragging = true
 		$Sprite2D.self_modulate.a = .5
