@@ -1,11 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://docpdyugevgfh"]
+[gd_scene load_steps=18 format=3 uid="uid://docpdyugevgfh"]
 
 [ext_resource type="PackedScene" uid="uid://cy44sbrrl1n6u" path="res://scenes/manager/bug_spawn_manager.tscn" id="1_6yas7"]
 [ext_resource type="Script" uid="uid://gm2vsu84ykss" path="res://scenes/ui/desktop.gd" id="1_ll2ol"]
 [ext_resource type="Texture2D" uid="uid://jeh7vi11aweu" path="res://addons/color_dither/textures/demo/cat.png" id="1_uyncw"]
 [ext_resource type="PackedScene" uid="uid://by5adhdovalob" path="res://scenes/hamster/hamster.tscn" id="2_6yas7"]
-[ext_resource type="Shader" uid="uid://bt8q2fm45t67d" path="res://addons/color_dither/shaders/color_dither_post_2d.gdshader" id="2_yw0nm"]
-[ext_resource type="Texture2D" uid="uid://3k3gmhyq1qhe" path="res://addons/color_dither/textures/palettes/color-graphics-adapter.png" id="3_6yas7"]
 [ext_resource type="PackedScene" uid="uid://dkhn3x88cln60" path="res://scenes/bug/bug.tscn" id="3_q8u6i"]
 [ext_resource type="Texture2D" uid="uid://b4wpdbatj42yg" path="res://assets/shortcuts/defragment-0.png" id="6_a1tuf"]
 [ext_resource type="Script" uid="uid://mq022occua21" path="res://scenes/ui/window.gd" id="6_q8u6i"]
@@ -13,23 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://t2ss6vfh1tll" path="res://scenes/shortcuts/shortcut.tscn" id="8_uadmx"]
 [ext_resource type="Texture2D" uid="uid://bgd8e8cf07lcw" path="res://assets/shortcuts/recycle_bin_empty_2k-4.png" id="8_xw6ii"]
 [ext_resource type="Script" uid="uid://2xgf2bourok5" path="res://scenes/ui/trash.gd" id="10_xw6ii"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_q8u6i"]
-shader = ExtResource("2_yw0nm")
-shader_parameter/dither_pixel_size = 1.0
-shader_parameter/dither_pixel_offset = Vector2(0, 0)
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/albedo_strength = 1.0
-shader_parameter/dither_palette = ExtResource("3_6yas7")
-
-[sub_resource type="Gradient" id="Gradient_2pwep"]
-colors = PackedColorArray(0.039, 0.609267, 0.65, 1, 0.23529, 0.62, 0.1674, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_2nepw"]
-gradient = SubResource("Gradient_2pwep")
-width = 1280
-height = 720
-fill_from = Vector2(0.5, 0.6)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6yas7"]
 distance = -656.0
@@ -40,6 +21,15 @@ normal = Vector2(1, 0)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_cbgyw"]
 normal = Vector2(-1, 0)
 distance = -1280.0
+
+[sub_resource type="Gradient" id="Gradient_2pwep"]
+colors = PackedColorArray(0.039, 0.609267, 0.65, 1, 0.23529, 0.62, 0.1674, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2nepw"]
+gradient = SubResource("Gradient_2pwep")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0.6)
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_uadmx"]
 vertices = PackedVector2Array(1264, 640, 16, 640, 16, 16, 1264, 16)
@@ -55,47 +45,25 @@ baking_rect = Rect2(0, 0, 1280, 656)
 [node name="Desktop" type="Node2D"]
 script = ExtResource("1_ll2ol")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="Border" type="Node2D" parent="."]
 
-[node name="DitherShader" type="ColorRect" parent="UI"]
-visible = false
-material = SubResource("ShaderMaterial_q8u6i")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
+[node name="StaticBody2D" type="StaticBody2D" parent="Border"]
+collision_mask = 0
 
-[node name="Window" type="Window" parent="UI"]
-transparent_bg = true
-title = "what"
-initial_position = 1
-visible = false
-transparent = true
-min_size = Vector2i(100, 0)
-script = ExtResource("6_q8u6i")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_6yas7")
 
-[node name="Sprite2D" type="Sprite2D" parent="UI/Window"]
-position = Vector2(54, 54.5)
-scale = Vector2(0.40625, 0.303529)
-texture = ExtResource("1_uyncw")
+[node name="StaticBody2D2" type="StaticBody2D" parent="Border"]
+collision_mask = 0
 
-[node name="Sidebar" type="PanelContainer" parent="UI"]
-visible = false
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 2
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D2"]
+shape = SubResource("WorldBoundaryShape2D_q8u6i")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Sidebar"]
-layout_mode = 2
+[node name="StaticBody2D3" type="StaticBody2D" parent="Border"]
+collision_mask = 0
 
-[node name="Label" type="Label" parent="UI/Sidebar/VBoxContainer"]
-layout_mode = 2
-text = "shortcuts"
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D3"]
+shape = SubResource("WorldBoundaryShape2D_cbgyw")
 
 [node name="Wallpaper" type="Sprite2D" parent="."]
 position = Vector2(640, 360)
@@ -117,9 +85,24 @@ size_flags_vertical = 8
 layout_mode = 2
 
 [node name="WindowButton" type="Button" parent="Taskbar/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "cat"
+
+[node name="Window" type="Window" parent="Taskbar/HBoxContainer"]
+transparent_bg = true
+title = "what"
+initial_position = 1
+visible = false
+transparent = true
+min_size = Vector2i(100, 0)
+script = ExtResource("6_q8u6i")
+
+[node name="Sprite2D" type="Sprite2D" parent="Taskbar/HBoxContainer/Window"]
+position = Vector2(54, 54.5)
+scale = Vector2(0.40625, 0.303529)
+texture = ExtResource("1_uyncw")
 
 [node name="SpawnBugButton" type="Button" parent="Taskbar/HBoxContainer"]
 custom_minimum_size = Vector2(64, 0)
@@ -149,35 +132,14 @@ text = "revive hamster"
 bug_scene = ExtResource("3_q8u6i")
 disabled = true
 
-[node name="Border" type="Node2D" parent="."]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Border"]
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D"]
-shape = SubResource("WorldBoundaryShape2D_6yas7")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="Border"]
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D2"]
-shape = SubResource("WorldBoundaryShape2D_q8u6i")
-
-[node name="StaticBody2D3" type="StaticBody2D" parent="Border"]
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/StaticBody2D3"]
-shape = SubResource("WorldBoundaryShape2D_cbgyw")
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navregion"]]
-position = Vector2(10, -5)
 navigation_polygon = SubResource("NavigationPolygon_uadmx")
 
 [node name="Hamster" parent="." instance=ExtResource("2_6yas7")]
 position = Vector2(824, 490)
 
-[connection signal="close_requested" from="UI/Window" to="UI/Window" method="_on_close_requested"]
-[connection signal="pressed" from="Taskbar/HBoxContainer/WindowButton" to="UI/Window" method="_on_window_button_pressed"]
+[connection signal="pressed" from="Taskbar/HBoxContainer/WindowButton" to="Taskbar/HBoxContainer/Window" method="_on_window_button_pressed"]
+[connection signal="close_requested" from="Taskbar/HBoxContainer/Window" to="Taskbar/HBoxContainer/Window" method="_on_close_requested"]
 [connection signal="pressed" from="Taskbar/HBoxContainer/SpawnBugButton" to="BugSpawnManager" method="_on_spawn_bug_button_pressed"]
 [connection signal="gui_input" from="Taskbar/HBoxContainer/ShortcutSpawner" to="Taskbar/HBoxContainer/ShortcutSpawner" method="_on_gui_input"]
 [connection signal="mouse_entered" from="Taskbar/HBoxContainer/Trash" to="Taskbar/HBoxContainer/Trash" method="_on_mouse_entered"]

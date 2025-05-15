@@ -11,6 +11,7 @@ var state: states = states.WANDER
 var flip = 1
 
 func _ready():
+	#sets health bar information
 	$HealthBar.init_bar(100)
 
 
@@ -38,7 +39,7 @@ func _physics_process(delta):
 			flip *= -1
 		#only moves side to side when on taskbar
 		if is_on_floor():
-			velocity.x = 300 * flip
+			velocity.x = 150 * flip
 		#calculates gravity when in the air
 		else:
 			velocity.x = 0
@@ -56,19 +57,12 @@ func _on_area_2d_mouse_exited():
 	pickable = false
 
 
-#dies if collides with bug
-#currently just gets deleted, need to add health
-func _on_area_2d_body_entered(body):
-	if body.is_in_group("bug"):
-		pass
-		#queue_free()
-
-
+#syncs health bar with internal health value
 func _on_health_action_applied(action, applied):
-	#print($Health.current)
 	$HealthBar.update_bar($Health.current)
 
 
+#deletes hamster on death, and allows "revive hamster" button on taskbar to be clicked
 func _on_health_died(entity):
 	$"../Taskbar/HBoxContainer/ReviveHamsterButton".disabled = false
 

@@ -1,18 +1,24 @@
-[gd_scene load_steps=13 format=3 uid="uid://by5adhdovalob"]
+[gd_scene load_steps=11 format=3 uid="uid://by5adhdovalob"]
 
 [ext_resource type="Script" uid="uid://bwxl67ra0vm54" path="res://scenes/hamster/hamster.gd" id="1_6v4te"]
 [ext_resource type="Texture2D" uid="uid://d1u4pe6w6geax" path="res://scenes/hamster/hamster.png" id="1_v5iii"]
-[ext_resource type="PackedScene" uid="uid://disdvhfw0b0mn" path="res://scenes/component/velocity_component.tscn" id="3_chdbw"]
 [ext_resource type="Script" uid="uid://dr8bvnfebp76" path="res://addons/health_hitbox_hurtbox/health/health.gd" id="4_ohn85"]
 [ext_resource type="Script" uid="uid://dtfoilkdcfvgv" path="res://addons/health_hitbox_hurtbox/2d/hurt_box_2d/basic_hurt_box_2d.gd" id="5_vus7h"]
 [ext_resource type="Script" uid="uid://cobp4qehnuq77" path="res://addons/health_hitbox_hurtbox/resources/modifier.gd" id="6_7g52f"]
 [ext_resource type="PackedScene" uid="uid://drvgkns1v81b2" path="res://addons/simple_health_bar/health_bar.tscn" id="7_vus7h"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_chdbw"]
+radius = 28.0179
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_6v4te"]
 radius = 37.054
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_chdbw"]
-radius = 31.0161
+[sub_resource type="Resource" id="Resource_ohn85"]
+script = ExtResource("6_7g52f")
+incrementer = 0
+multiplier = 1.0
+convert_affect = 0
+convert_type = 0
 
 [sub_resource type="Resource" id="Resource_vus7h"]
 script = ExtResource("6_7g52f")
@@ -20,16 +26,6 @@ incrementer = 0
 multiplier = 1.0
 convert_affect = 0
 convert_type = 0
-
-[sub_resource type="Resource" id="Resource_7g52f"]
-script = ExtResource("6_7g52f")
-incrementer = 0
-multiplier = 1.0
-convert_affect = 0
-convert_type = 0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ohn85"]
-radius = 26.1725
 
 [node name="Hamster" type="CharacterBody2D" groups=["hamster"]]
 collision_layer = 0
@@ -40,6 +36,10 @@ position = Vector2(0.400002, 18.5)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_v5iii")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 18)
+shape = SubResource("CircleShape2D_chdbw")
+
 [node name="MouseDetectArea" type="Area2D" parent="."]
 position = Vector2(0.400002, 18.5)
 collision_layer = 16
@@ -48,28 +48,24 @@ collision_mask = 4
 [node name="PickupShape" type="CollisionShape2D" parent="MouseDetectArea"]
 shape = SubResource("CircleShape2D_6v4te")
 
-[node name="VelocityComponent" parent="." instance=ExtResource("3_chdbw")]
+[node name="BasicHurtBox2D" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_vus7h")
+health = NodePath("../Health")
+modifiers = Dictionary[int, ExtResource("6_7g52f")]({
+1: SubResource("Resource_ohn85"),
+2: SubResource("Resource_vus7h")
+})
+metadata/_custom_type_script = "uid://dtfoilkdcfvgv"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicHurtBox2D"]
 position = Vector2(1, 18)
 shape = SubResource("CircleShape2D_chdbw")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("4_ohn85")
 metadata/_custom_type_script = "uid://dr8bvnfebp76"
-
-[node name="BasicHurtBox2D" type="Area2D" parent="." node_paths=PackedStringArray("health")]
-script = ExtResource("5_vus7h")
-health = NodePath("../Health")
-modifiers = Dictionary[int, ExtResource("6_7g52f")]({
-1: SubResource("Resource_vus7h"),
-2: SubResource("Resource_7g52f")
-})
-metadata/_custom_type_script = "uid://dtfoilkdcfvgv"
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="BasicHurtBox2D"]
-position = Vector2(0, 19)
-shape = SubResource("CircleShape2D_ohn85")
 
 [node name="HealthBar" parent="." instance=ExtResource("7_vus7h")]
 offset_left = -28.0

@@ -1,88 +1,111 @@
-[gd_scene load_steps=15 format=3 uid="uid://dkhn3x88cln60"]
+[gd_scene load_steps=18 format=3 uid="uid://dkhn3x88cln60"]
 
 [ext_resource type="Script" uid="uid://fl1vmuuwgw71" path="res://scenes/bug/bug.gd" id="1_07bwr"]
 [ext_resource type="Texture2D" uid="uid://bpy63p7mg4xdi" path="res://scenes/bug/bug.png" id="1_c3vej"]
 [ext_resource type="Script" uid="uid://chrsg1fc53qs3" path="res://addons/health_hitbox_hurtbox/2d/hit_box_2d/basic_hit_box_2d.gd" id="4_7qq8w"]
-[ext_resource type="Script" uid="uid://hrwhd52e5mkq" path="res://addons/health_hitbox_hurtbox/resources/action.gd" id="5_tqa7d"]
 [ext_resource type="PackedScene" uid="uid://drvgkns1v81b2" path="res://addons/simple_health_bar/health_bar.tscn" id="6_nv4dg"]
 [ext_resource type="Script" uid="uid://dr8bvnfebp76" path="res://addons/health_hitbox_hurtbox/health/health.gd" id="7_k2opg"]
+[ext_resource type="Script" uid="uid://dtfoilkdcfvgv" path="res://addons/health_hitbox_hurtbox/2d/hurt_box_2d/basic_hurt_box_2d.gd" id="7_ml27m"]
+[ext_resource type="Script" uid="uid://cobp4qehnuq77" path="res://addons/health_hitbox_hurtbox/resources/modifier.gd" id="8_51vwr"]
+[ext_resource type="Script" uid="uid://hrwhd52e5mkq" path="res://addons/health_hitbox_hurtbox/resources/action.gd" id="8_k2opg"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_7qq8w"]
-radius = 20.0
+[sub_resource type="Resource" id="Resource_k2opg"]
+script = ExtResource("8_51vwr")
+incrementer = 0
+multiplier = 1.0
+convert_affect = 0
+convert_type = 0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_07bwr"]
-radius = 32.0
+[sub_resource type="Resource" id="Resource_ml27m"]
+script = ExtResource("8_51vwr")
+incrementer = 0
+multiplier = 1.0
+convert_affect = 0
+convert_type = 0
 
-[sub_resource type="Resource" id="Resource_tqa7d"]
-script = ExtResource("5_tqa7d")
+[sub_resource type="CircleShape2D" id="CircleShape2D_k2opg"]
+radius = 40.42
+
+[sub_resource type="Resource" id="Resource_beynb"]
+script = ExtResource("8_k2opg")
 affect = 1
 type = 2
 amount = 20
 
-[sub_resource type="Resource" id="Resource_7qq8w"]
-script = ExtResource("5_tqa7d")
+[sub_resource type="Resource" id="Resource_51vwr"]
+script = ExtResource("8_k2opg")
 affect = 1
 type = 2
-amount = 1
+amount = 20
 
-[sub_resource type="Resource" id="Resource_nv4dg"]
-script = ExtResource("5_tqa7d")
+[sub_resource type="Resource" id="Resource_8wxei"]
+script = ExtResource("8_k2opg")
 affect = 1
 type = 2
-amount = 10
+amount = 20
 
-[sub_resource type="Resource" id="Resource_ml27m"]
-script = ExtResource("5_tqa7d")
+[sub_resource type="Resource" id="Resource_rop2k"]
+script = ExtResource("8_k2opg")
 affect = 1
 type = 2
-amount = 10
+amount = 20
 
-[sub_resource type="Resource" id="Resource_k2opg"]
-script = ExtResource("5_tqa7d")
+[sub_resource type="Resource" id="Resource_td4ai"]
+script = ExtResource("8_k2opg")
 affect = 1
 type = 2
-amount = 10
+amount = 20
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_k2opg"]
-radius = 40.42
+[sub_resource type="CircleShape2D" id="CircleShape2D_7qq8w"]
+radius = 20.0
 
 [node name="Bug" type="CharacterBody2D" groups=["bug"]]
 collision_layer = 4
 collision_mask = 4
 safe_margin = 0.001
 script = ExtResource("1_07bwr")
-movement_speed = 100.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-2.5, -2.7)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("1_c3vej")
 
-[node name="Hitbox" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0.300003)
-shape = SubResource("CircleShape2D_7qq8w")
-
-[node name="ClickHurtbox" type="Area2D" parent="."]
+[node name="BasicHurtBox2D" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 4
 collision_mask = 0
+script = ExtResource("7_ml27m")
+health = NodePath("../Health")
+modifiers = Dictionary[int, ExtResource("8_51vwr")]({
+1: SubResource("Resource_k2opg"),
+2: SubResource("Resource_ml27m")
+})
+metadata/_custom_type_script = "uid://dtfoilkdcfvgv"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickHurtbox"]
-shape = SubResource("CircleShape2D_07bwr")
-
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-debug_enabled = true
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BasicHurtBox2D"]
+shape = SubResource("CircleShape2D_k2opg")
 
 [node name="BasicHitBox2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("4_7qq8w")
 amount = 20
-actions = Array[ExtResource("5_tqa7d")]([SubResource("Resource_tqa7d"), SubResource("Resource_7qq8w"), SubResource("Resource_nv4dg"), SubResource("Resource_ml27m"), SubResource("Resource_k2opg")])
+actions = Array[ExtResource("8_k2opg")]([SubResource("Resource_beynb"), SubResource("Resource_51vwr"), SubResource("Resource_8wxei"), SubResource("Resource_rop2k"), SubResource("Resource_td4ai")])
 metadata/_custom_type_script = "uid://chrsg1fc53qs3"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BasicHitBox2D"]
 shape = SubResource("CircleShape2D_k2opg")
 
-[node name="HitCooldownTimer" type="Timer" parent="."]
+[node name="HitCooldownTimer" type="Timer" parent="BasicHitBox2D"]
 wait_time = 0.5
 one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0.300003)
+shape = SubResource("CircleShape2D_7qq8w")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("7_k2opg")
+metadata/_custom_type_script = "uid://dr8bvnfebp76"
 
 [node name="HealthBar" parent="." instance=ExtResource("6_nv4dg")]
 offset_left = -37.0
@@ -90,12 +113,11 @@ offset_top = -38.0
 offset_right = 39.0
 offset_bottom = -34.0
 
-[node name="Health" type="Node" parent="."]
-script = ExtResource("7_k2opg")
-metadata/_custom_type_script = "uid://dr8bvnfebp76"
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_enabled = true
 
-[connection signal="input_event" from="ClickHurtbox" to="." method="_on_hurtbox_input_event"]
+[connection signal="input_event" from="BasicHurtBox2D" to="." method="_on_hurtbox_input_event"]
 [connection signal="hurt_box_entered" from="BasicHitBox2D" to="." method="_on_basic_hit_box_2d_hurt_box_entered"]
-[connection signal="timeout" from="HitCooldownTimer" to="." method="_on_hit_cooldown_timer_timeout"]
+[connection signal="timeout" from="BasicHitBox2D/HitCooldownTimer" to="." method="_on_hit_cooldown_timer_timeout"]
 [connection signal="action_applied" from="Health" to="." method="_on_health_action_applied"]
 [connection signal="died" from="Health" to="." method="_on_health_died"]

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cc5rh6u6o78u2"]
+
+[ext_resource type="Script" uid="uid://dfpiclldeup01" path="res://scenes/manager/projectile_manager.gd" id="1_yvuvu"]
+[ext_resource type="PackedScene" uid="uid://cvcpo2vqqnfpf" path="res://scenes/shortcuts/projectile.tscn" id="2_q8t0j"]
+
+[node name="ProjectileManager" type="Node2D"]
+script = ExtResource("1_yvuvu")
+projectile_scene = ExtResource("2_q8t0j")
+firerate = 5.0
+
+[node name="FirerateTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="FirerateTimer" to="." method="_on_firerate_timer_timeout"]

@@ -2,7 +2,7 @@ extends TextureRect
 
 @export var shortcut_scene: PackedScene
 
-
+#spans a new shortcut node when clicked on in taskbar
 func _on_gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		var shortcut = shortcut_scene.instantiate()

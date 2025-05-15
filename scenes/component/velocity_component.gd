@@ -1,7 +1,5 @@
 extends Node
 
-#adjusting these values through the inspector will change the movement behavior 
-#for the object this component is attached to
 @export var max_speed: int = 200
 @export var acceleration: float = 5
 @export var rotational_acceleration: float = 5
